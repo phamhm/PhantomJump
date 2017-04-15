@@ -1,6 +1,7 @@
 [
     {
       "keys": ["ctrl+;"],
-      "command": "jump"
-      }
+      "command": "jump",
+      "args":{"mode": "OK"}
+    },
 ]

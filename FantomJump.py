@@ -32,11 +32,13 @@ class JumpCommand(sublime_plugin.WindowCommand):
         '''
         # can be restricted
         self.search_region = self.view.visible_region()
-
         self.find_flags = None
-
-        self.default_regex_list = {'word': '[\\w\\w]+'}
+        self.default_regex_list = {'word': '[\\w\\w]+', 'begline': '^'}
         self.use_default_regex = False
+
+        for setting in kwargs:
+            if hasattr(self, setting):
+                setattr(self, setting, kwargs[setting])
 
         if self.use_default_regex:
             pattern = None
@@ -62,7 +64,6 @@ class JumpCommand(sublime_plugin.WindowCommand):
             self.cleanup()
 
     def generate_targets(self, regex_input):
-        print('generating targets with ' + regex_input)
         regions = self.find_in_view(r'{}'.format(regex_input.strip()))
         self.view.add_regions('targets', regions,
                               'string', '', sublime.DRAW_NO_FILL)
